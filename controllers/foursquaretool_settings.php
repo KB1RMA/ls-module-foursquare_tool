@@ -9,6 +9,7 @@ class FoursquareTool_Settings extends Backend_SettingsController {
 	public $form_model_class = 'FoursquareTool_Configuration';
 	public $form_redirect = null;
 
+	public $redirect_uri = null;
 
 	public function __construct() {
 	
@@ -19,6 +20,9 @@ class FoursquareTool_Settings extends Backend_SettingsController {
 
 		$this->app_page = 'settings';
 		
+		$this->redirect_uri  = site_url(url('/foursquaretool/settings/authenticate/'));
+		$this->form_redirect = url('/foursquaretool/settings/authenticate/');
+
 	}
 
 	public function index()	{
@@ -41,7 +45,7 @@ class FoursquareTool_Settings extends Backend_SettingsController {
 
 			$obj->save(post($this->form_model_class, array()), $this->formGetEditSessionKey());
 			Phpr::$session->flash['success'] = 'Configuration has been saved successfully!';
-			Phpr::$response->redirect(url('foursquaretool/settings'));
+			Phpr::$response->redirect($this->form_redirect);
 		} catch (Exception $ex) {
 			Phpr::$response->ajaxReportException($ex, true, true);
 		}
@@ -60,7 +64,7 @@ class FoursquareTool_Settings extends Backend_SettingsController {
 		
 		// If token isn't sent, redirect to the foursquare authentication link		
 		if ( empty($token) ) {
-			$Phpr::$response->redirect( $foursquare->AuthenticationLink($this->redirect_uri) );		
+			Phpr::$response->redirect( $foursquare->AuthenticationLink($this->redirect_uri) );		
 			return;
 		}
 		
@@ -68,9 +72,7 @@ class FoursquareTool_Settings extends Backend_SettingsController {
 		
 		$configuration->save();
 		
-		$this->viewData['token'] = $configuration->token;
-		
-		$this->app_page_title = 'Foursquare Tool Authentication';
+		Phpr::$response->redirect( url('/foursquaretool/settings/') );
 
 	}
 
