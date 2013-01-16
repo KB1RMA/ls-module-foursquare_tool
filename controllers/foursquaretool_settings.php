@@ -82,8 +82,9 @@ class FoursquareTool_Settings extends Backend_SettingsController {
 		
 		$foursquare = $this->_load_foursquare();
 		
-		$params = array('near'=>'Chicago, IL');
+		$params = array();
 		$response = $foursquare->GetPrivate("users/self", $params);
+		
 		return json_decode($response);
 	
 	}
