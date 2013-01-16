@@ -9,6 +9,11 @@
 				<?= backend_ajax_button('Authenticate', 'index_onSave', array('class'=>'default'), "loadIndicator: {hideOnSuccess: false}") ?>
 			<?= Phpr_Form::close_tag() ?>
 		</div>
+		
+		<? if ($authenticated->meta->code == 200 ) : ?>
+			<p> congrats you're authenticated! </p>
+		<? endif ?>
+		
 	<? else: ?>
 		<?= flash() ?>
 	<? endif ?>

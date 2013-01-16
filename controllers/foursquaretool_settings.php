@@ -31,7 +31,10 @@ class FoursquareTool_Settings extends Backend_SettingsController {
 			$this->app_page_title = 'Foursquare Tool Configuration';
 		
 			$obj = new FoursquareTool_Configuration();
-			$this->viewData['form_model'] = $obj->load();		
+			$obj = $obj->load();
+			
+			$this->viewData['form_model'] = $obj;		
+			$this->viewData['authenticated'] = $this->test_authentication();		
 		} catch (exception $ex) {
 			$this->_controller->handlePageError($ex);
 		}
@@ -53,27 +56,50 @@ class FoursquareTool_Settings extends Backend_SettingsController {
 	}
 	
 	public function authenticate() {
-
+		
 		$configuration = FoursquareTool_Configuration::create();
-		
-		require_once( __DIR__ . "/../vendor/php-foursquare/src/FoursquareAPI.class.php" );
-		
-		$foursquare = new FoursquareAPI($configuration->client_key,$configuration->client_secret);
+	
+		$foursquare = $this->_load_foursquare( false );;
 		
 		$token = Phpr::$request->get_value_array('code');
 		
 		// If token isn't sent, redirect to the foursquare authentication link		
+		
 		if ( empty($token) ) {
 			Phpr::$response->redirect( $foursquare->AuthenticationLink($this->redirect_uri) );		
 			return;
 		}
 		
-		$configuration->token = $token;
-		
+		$configuration->token = $foursquare->GetToken($token, $this->redirect_uri );
+	
 		$configuration->save();
 		
 		Phpr::$response->redirect( url('/foursquaretool/settings/') );
 
+	}
+	
+	public function test_authentication() {
+		
+		$foursquare = $this->_load_foursquare();
+		
+		$params = array('near'=>'Chicago, IL');
+		$response = $foursquare->GetPrivate("users/self", $params);
+		return json_decode($response);
+	
+	}
+
+	private function _load_foursquare( $set_token = true ) {
+	
+		$configuration = FoursquareTool_Configuration::create();
+		
+		require_once( __DIR__ . "/../vendor/php-foursquare/src/FoursquareAPI.class.php" );
+
+		$foursquare = new FoursquareAPI($configuration->client_key,$configuration->client_secret);
+		
+		if ($set_token)
+			$foursquare->SetAccessToken($configuration->token);
+		
+		return $foursquare;
 	}
 
 }
