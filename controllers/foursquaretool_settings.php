@@ -5,27 +5,47 @@ class FoursquareTool_Settings extends Backend_SettingsController {
 	protected $access_for_groups = array(Users_Groups::admin);
 	public $implement = 'Db_FormBehavior';
 
-	public $form_model_class = 'FoursquareTools_Configuration';
+	public $form_edit_title = 'FoursquareTool Settings';
+	public $form_model_class = 'FoursquareTool_Configuration';
 	public $form_redirect = null;
-	public $redirect_uri = null;
+
 
 	public function __construct() {
-		$this->redirect_uri = url('/foursquaretool/settings/authenticate/');
+	
+		parent::__construct();		
 		
-		parent::__construct();
+		$this->app_tab = 'Foursquare Tool';
+		$this->app_module_name = 'FoursquareTool';
 
+		$this->app_page = 'settings';
+		
 	}
 
 	public function index()	{
 
-		$this->app_page_title = 'Foursquare Tool Configuration';
+		try {
+			$this->app_page_title = 'Foursquare Tool Configuration';
+		
+			$obj = new FoursquareTool_Configuration();
+			$this->viewData['form_model'] = $obj->load();		
+		} catch (exception $ex) {
+			$this->_controller->handlePageError($ex);
+		}
+	}
+	
+	protected function index_onSave() {
+		
+		try {
+			$obj = new FoursquareTool_Configuration();
+			$obj = $obj->load();
 
-		$this->form_redirect = $this->form_redirect = url('/foursquaretool/settings/authenticate');
-
-		$configuration = FoursquareTool_Configuration::create();
-
-		$this->viewData['form_model'] = $configuration;		
-
+			$obj->save(post($this->form_model_class, array()), $this->formGetEditSessionKey());
+			Phpr::$session->flash['success'] = 'Configuration has been saved successfully!';
+			Phpr::$response->redirect(url('foursquaretool/settings'));
+		} catch (Exception $ex) {
+			Phpr::$response->ajaxReportException($ex, true, true);
+		}
+		
 	}
 	
 	public function authenticate() {

@@ -25,8 +25,5 @@ class FoursquareTool_Module extends Core_ModuleBase  {
 			)
 		);
 	}
-	
-	public function initSettingsData($model, $form_code) {
 
-	}
 }
