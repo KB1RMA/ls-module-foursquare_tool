@@ -8,9 +8,9 @@ class FoursquareTool_Module extends Core_ModuleBase  {
 	 
 	protected function createModuleInfo() {
 	  return new Core_ModuleInfo(
-		"Foursquare Tool",
-		"Various tools to use the Foursquare API in Lemonstand",
-		"Keyed-Up Media LLC" );
+			"Foursquare Tool",
+			"Various tools to use the Foursquare API in Lemonstand",
+			"Keyed-Up Media LLC" );
 	}
 	
 	public function listSettingsItems()	{
