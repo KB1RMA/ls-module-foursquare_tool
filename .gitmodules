@@ -1,0 +1,3 @@
+[submodule "vendor/php-foursquare"]
+	path = vendor/php-foursquare
+	url = git://github.com/stephenyoung/php-foursquare.git
