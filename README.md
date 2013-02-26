@@ -22,11 +22,15 @@ After entering your Client ID and Client Secret, click the 'Authenticate' button
 
 Grabbing a list of all your uploaded videos:
 
+```php
 	<? $results = FoursquareTool_Request::create()->setEndpoint('users/self/checkins')->getResult(); ?>
 Looping through all the results and sending them to a partial:
+```
 
+```php
 	<? if ( $results->checkins->count ) : ?>
 		<? foreach( $results->checkins->items as $checkin) : ?>
 			*do stuff*
 		<? endforeach; ?>
 	<? endif ?>
+```		
