@@ -24,8 +24,8 @@ Grabbing a list of all your uploaded videos:
 
 ```php
 	<? $results = FoursquareTool_Request::create()->setEndpoint('users/self/checkins')->getResult(); ?>
-Looping through all the results and sending them to a partial:
 ```
+Looping through all the results and sending them to a partial:
 
 ```php
 	<? if ( $results->checkins->count ) : ?>
