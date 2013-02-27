@@ -8,11 +8,11 @@ Documentation for the Foursquare api can be found here: [https://developer.fours
 
 Clone this repository into modules/ in the root directory of your Lemonstand application
 
-	git clone git://github.com/KB1RMA/foursquare_tool.git modules/foursquaretool
+	git clone git://github.com/KB1RMA/ls-module-foursquare_tool.git modules/foursquaretool
 
 Foursquare Tool uses a git submodule for the Vimeo PHP library ([https://github.com/stephenyoung/php-foursquare](https://github.com/stephenyoung/php-foursquare)) so be sure to init that before using or you won't get very far.
 
-	git submodule init
+	git submodule init && git submodule update
 
 The Foursquare Tool module will add a settings page to System > Settings > CMS in the Lemonstand backend where you will enter your Client ID and Client Secret.  You can create these for your application here: [https://foursquare.com/developers/apps](https://foursquare.com/developers/apps)
 
