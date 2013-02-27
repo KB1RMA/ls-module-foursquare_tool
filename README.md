@@ -14,7 +14,10 @@ Foursquare Tool uses a git submodule for the Vimeo PHP library ([https://github.
 
 	git submodule init
 
-The Foursquare Tool module will add a settings page to System > Settings > CMS in the Lemonstand backend where you will enter your Client ID and Client Secret. You can create these for your application here: [https://foursquare.com/developers/apps](https://foursquare.com/developers/apps)
+The Foursquare Tool module will add a settings page to System > Settings > CMS in the Lemonstand backend where you will enter your Client ID and Client Secret.  You can create these for your application here: [https://foursquare.com/developers/apps](https://foursquare.com/developers/apps)
+
+![Settings Page](resources/img/foursquare_tool_settings_1.png)
+![Settings Page](resources/img/foursquare_tool_settings_2.png)
 
 After entering your Client ID and Client Secret, click the 'Authenticate' button and you'll be sent off to Foursquare to grant access. When you return, if all went well, your store will be authenticated and you can now use the class in your partials/pages.
 
